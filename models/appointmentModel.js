@@ -1,36 +1,47 @@
 const mongoose = require("mongoose");
+const multer=require("multer");
+const bodyParser = require('body-parser');
 var appointmentSchema = mongoose.Schema({
     name: {
      type: String,
-    required: true
+    required: false
 },
     email: {
        type: String,
-       required: true,
+       required: false,
     },
     phone: {
         type: String,
-       required: true
+       required: false
     },
+    avatar:{
+      type:String,
+
+    }
       
 });
 
 var Appointment1 = module.exports = mongoose.model('appointments', appointmentSchema);
 
 module.exports.addAppointments = async (req, res) =>  {
+ 
 
 
-    console.log(".........GetUserByName..........."+req.query); 
+    console.log(".........GetUserByName......1....."); 
     try {
 
       //
-      console.log(".........GetUserByName..........."); 
+      console.log(".........GetUserByName.....2......"); 
       const appointment = new Appointment1({
-        "name": req.body.name,
-        "email": req.body.email,
-        "phone": req.body.phone,
+        name: req.body.name,
+        email: req.body.email,
+      phone: req.body.phone,
         
       });
+      if(req.file){
+        appointment.avatar=req.file.path
+      }
+      console.log(appointment)
        appointment.save()
 
       
